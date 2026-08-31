@@ -1,0 +1,51 @@
+// See README.md in root of repository for documentation and more configuration options.
+
+inputs = [
+	"../input/dbus"
+]
+
+
+clang_include_paths = [
+	"../input"
+]
+
+type_overrides = {
+	"dbus_uint64_t" = "u64",
+	"dbus_uint32_t" = "u32",
+	"dbus_uint16_t" = "u16",
+	"dbus_uint8_t" = "u8",
+	"dbus_int64_t" = "i64",
+	"dbus_int32_t" = "i32",
+	"dbus_int16_t" = "i16",
+	"dbus_int8_t" = "i8",
+	"dbus_bool_t" = "b32",
+	//"DBusObjectPathVTable" = "struct {unregister_function: dbus.ObjectPathUnregisterFunction, message_function: dbus.ObjectPathMessageFunction, _reserved: [4]rawptr}"
+}
+
+rename = {
+	"DBus8ByteStruct" = "_8ByteStruct",
+}
+
+output_folder = "."
+remove_type_prefix = "DBus"
+remove_function_prefix = "dbus_"
+remove_macro_prefix = "DBUS_"
+required_prefix = "dbus"
+import_lib = "system:dbus-1"
+package_name = "odin_dbus"
+
+struct_field_overrides = {
+}
+
+procedure_type_overrides = {
+}
+
+remove = [
+	"DBUS_INTROSPECT_1_0_XML_DOCTYPE_DECL_NODE",
+	"DBUS_TYPE_INVALID_AS_STRING",
+	"DBUS_HEADER_SIGNATURE",
+	"DBUS_GERROR",
+	"DBusError",
+	"DBusObjectPathVTable",
+	"DBusMessageIter",
+]
