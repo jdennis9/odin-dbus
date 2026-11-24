@@ -18,7 +18,7 @@ DIRECTION_STRING := [Method_Arg_Direction]string {
 	.Out = "out",
 }
 
-build_type_signature :: proc(b: ^strings.Builder, T: typeid) -> (error: Error) {
+build_type_signature :: proc(b: ^strings.Builder, T: typeid) -> (ok: bool = true) {
 	switch T {
 	case i32: fmt.sbprint(b, 'i'); return
 	case i64, int: fmt.sbprint(b, 'x'); return
@@ -49,12 +49,12 @@ build_type_signature :: proc(b: ^strings.Builder, T: typeid) -> (error: Error) {
 	}
 
 	fmt.println("Unsupported type", T)
-	return Error_Code.UnsupportedType
+	return false
 }
 
 property_map_from_type :: proc(
 	T: typeid, string_allocator: mem.Allocator, map_allocator: mem.Allocator
-) -> (props: map[string]Property, error: Error) {
+) -> (props: map[string]Property, ok: bool) {
 	props = make(map[string]Property, map_allocator)
 
 	ti := reflect.type_info_base(type_info_of(T))
@@ -72,16 +72,16 @@ property_map_from_type :: proc(
 
 		// Type signature
 		b: strings.Builder
-		strings.builder_init_len_cap(&b, 0, 8, string_allocator) or_return
+		strings.builder_init_len_cap(&b, 0, 8, string_allocator)
 		build_type_signature(&b, field.type.id) or_return
 
 		if tag == "-" do continue
 
 		if has_tag {
-			name = strings.clone(tag, string_allocator) or_return
+			name = strings.clone(tag, string_allocator)
 		}
 		else {
-			name = strings.to_upper_camel_case(field.name, string_allocator) or_return
+			name = strings.to_upper_camel_case(field.name, string_allocator)
 		}
 
 		switch access_str {
@@ -97,6 +97,7 @@ property_map_from_type :: proc(
 		}
 	}
 
+	ok = true
 	return
 }
 
