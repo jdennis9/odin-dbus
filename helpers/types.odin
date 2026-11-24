@@ -14,6 +14,7 @@ Error_Code :: enum {
 	RegisterObjectPathFailed,
 	UnsupportedType,
 	UnknownInterface,
+	AccessViolation,
 }
 
 Error :: union {

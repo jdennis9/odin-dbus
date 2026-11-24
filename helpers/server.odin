@@ -306,7 +306,9 @@ _handle_properties_method :: proc(object: Object, msg: ^dbus.Message, reply: ^db
 		iface := object_get_interface_from_name(object, string(target_iface_name)) or_return
 		prop := iface.properties[string(property_name)] or_return
 
+		if prop.access != .ReadWrite do return Error_Code.AccessViolation
 
+		// @TODO: Set property
 	}
 
 	return nil
