@@ -37,10 +37,10 @@ Access :: enum {
 }
 
 Property :: struct {
-	offset: uintptr,
-	type: typeid,
+	offset:         uintptr,
+	type:           typeid,
 	type_signature: cstring,
-	access: Access,
+	access:         Access,
 }
 
 Method_Arg_Direction :: enum {
@@ -49,8 +49,8 @@ Method_Arg_Direction :: enum {
 }
 
 Method_Arg_Definition :: struct {
-	name: string,
-	type: typeid,
+	name:      string,
+	type:      typeid,
 	direction: Method_Arg_Direction,
 }
 
@@ -60,24 +60,22 @@ Method_Definition :: struct {
 }
 
 Interface :: struct {
-	name: cstring,
-	// Type of struct where properties are stored
-	properties_type: typeid,
-	// Pointer to struct where properties are stored
-	property_data: rawptr,
-	properties: map[string]Property,
-	methods: []Method_Definition,
-	method_proc: proc(call: Method_Call, result_allocator: mem.Allocator) -> (Method_Result, Error),
+	name:            cstring,
+	properties_type: typeid, // Type of struct where properties are stored
+	property_data:   rawptr, // Pointer to struct where properties are stored
+	properties:      map[string]Property,
+	methods:         []Method_Definition,
+	method_proc:     proc(call: Method_Call, result_allocator: mem.Allocator) -> (Method_Result, Error),
 }
 
 Object :: struct {
-	path: cstring,
+	path:       cstring,
 	interfaces: []Interface,
 }
 
 Method_Call :: struct {
 	method_name: string,
-	args: map[string]Variant,
+	args:        map[string]Variant,
 }
 
 Method_Return_Value :: struct {
@@ -90,8 +88,8 @@ Method_Result :: struct {
 }
 
 Server_Info :: struct {
-	bus_name: cstring,
-	objects: []Object,
+	bus_name:     cstring,
+	objects:      []Object,
 	init_context: runtime.Context,
 }
 
